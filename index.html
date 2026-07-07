@@ -3,21 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>4 en Raya</title>
+  <title>4 en Raya | Juego</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🎮 4 en Raya</h1>
-    <p class="subtitle">Jugador 1: 🔴 | Jugador 2: 🟡</p>
+  <div class="background-glow glow-1"></div>
+  <div class="background-glow glow-2"></div>
 
-    <div class="info">
-      <h2 id="status">Turno del jugador 🔴</h2>
-      <button id="restartBtn">Reiniciar partida</button>
-    </div>
+  <main class="page">
+    <section class="game-card">
+      <div class="top-bar">
+        <div>
+          <h1>🎮 4 en Raya</h1>
+          <p class="subtitle">
+            Conecta 4 fichas del mismo color en horizontal, vertical o diagonal.
+          </p>
+        </div>
+      </div>
 
-    <div id="board" class="board"></div>
-  </div>
+      <section class="scoreboard">
+        <div class="score red-card">
+          <span class="score-label">Jugador 🔴</span>
+          <strong id="redScore">0</strong>
+        </div>
+
+        <div class="score draw-card">
+          <span class="score-label">Empates 🤝</span>
+          <strong id="drawScore">0</strong>
+        </div>
+
+        <div class="score yellow-card">
+          <span class="score-label">Jugador 🟡</span>
+          <strong id="yellowScore">0</strong>
+        </div>
+      </section>
+
+      <section class="status-panel">
+        <div id="status" class="status">Turno del jugador 🔴</div>
+
+        <div class="actions">
+          <button id="restartBtn" class="btn btn-primary">Reiniciar partida</button>
+          <button id="resetScoreBtn" class="btn btn-secondary">Reiniciar marcador</button>
+        </div>
+      </section>
+
+      <section class="board-wrapper">
+        <div id="columnPreview" class="column-preview"></div>
+        <div id="board" class="board" aria-label="Tablero de 4 en raya"></div>
+      </section>
+    </section>
+
+    <section class="info-card">
+      <h2>📘 Acerca del juego</h2>
+      <p>
+        4 en raya es un juego de estrategia para dos jugadores. Cada jugador deja
+        caer una ficha por turnos dentro del tablero. El objetivo es formar una
+        línea de 4 fichas del mismo color en horizontal, vertical o diagonal.
+      </p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>🎯 Objetivo</h3>
+          <p>Conectar 4 fichas seguidas antes que tu rival.</p>
+        </div>
+
+        <div class="info-box">
+          <h3>🧠 Estrategia</h3>
+          <p>Bloquea jugadas del oponente y crea varias opciones de victoria.</p>
+        </div>
+
+        <div class="info-box">
+          <h3>💻 Tecnologías</h3>
+          <p>HTML, CSS y JavaScript.</p>
+        </div>
+
+        <div class="info-box">
+          <h3>👥 Modalidad</h3>
+          <p>Jugador vs Jugador en el mismo dispositivo.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
