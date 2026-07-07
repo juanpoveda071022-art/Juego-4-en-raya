@@ -3,20 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>4 en Raya | Juego</title>
+  <title>4 en Raya Pro</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="background-glow glow-1"></div>
-  <div class="background-glow glow-2"></div>
+  <div class="bg-glow glow-a"></div>
+  <div class="bg-glow glow-b"></div>
 
-  <main class="page">
-    <section class="game-card">
-      <div class="top-bar">
+  <main class="app">
+    <!-- PANTALLA DE INICIO -->
+    <section id="startScreen" class="panel start-screen">
+      <div class="start-content">
+        <h1>🎮 4 en Raya Pro</h1>
+        <p class="subtitle">
+          Elige el modo de juego y demuestra quién domina el tablero.
+        </p>
+
+        <div class="mode-grid">
+          <button class="mode-card active" data-mode="pvp" id="pvpModeBtn">
+            <h2>👥 Jugador vs Jugador</h2>
+            <p>Dos jugadores en el mismo dispositivo.</p>
+          </button>
+
+          <button class="mode-card" data-mode="cpu" id="cpuModeBtn">
+            <h2>🤖 Jugador vs CPU</h2>
+            <p>Juega contra la computadora.</p>
+          </button>
+        </div>
+
+        <div id="difficultyBox" class="difficulty-box hidden">
+          <label for="difficulty">Dificultad de la CPU:</label>
+          <select id="difficulty">
+            <option value="easy">Fácil</option>
+            <option value="medium" selected>Medio</option>
+            <option value="hard">Difícil</option>
+          </select>
+        </div>
+
+        <button id="startGameBtn" class="btn btn-primary big-btn">
+          Iniciar partida
+        </button>
+      </div>
+    </section>
+
+    <!-- JUEGO -->
+    <section id="gameScreen" class="panel game-screen hidden">
+      <div class="header">
         <div>
-          <h1>🎮 4 en Raya</h1>
+          <h1>🎮 4 en Raya Pro</h1>
           <p class="subtitle">
-            Conecta 4 fichas del mismo color en horizontal, vertical o diagonal.
+            Conecta 4 fichas del mismo color en línea horizontal, vertical o diagonal.
           </p>
         </div>
       </div>
@@ -33,57 +69,40 @@
         </div>
 
         <div class="score yellow-card">
-          <span class="score-label">Jugador 🟡</span>
+          <span class="score-label" id="yellowLabel">Jugador 🟡</span>
           <strong id="yellowScore">0</strong>
         </div>
       </section>
 
       <section class="status-panel">
+        <div id="modeInfo" class="mode-info">Modo: Jugador vs Jugador</div>
         <div id="status" class="status">Turno del jugador 🔴</div>
 
         <div class="actions">
           <button id="restartBtn" class="btn btn-primary">Reiniciar partida</button>
           <button id="resetScoreBtn" class="btn btn-secondary">Reiniciar marcador</button>
+          <button id="changeModeBtn" class="btn btn-dark">Cambiar modo</button>
         </div>
       </section>
 
       <section class="board-wrapper">
         <div id="columnPreview" class="column-preview"></div>
-        <div id="board" class="board" aria-label="Tablero de 4 en raya"></div>
+        <div id="board" class="board"></div>
       </section>
     </section>
-
-    <section class="info-card">
-      <h2>📘 Acerca del juego</h2>
-      <p>
-        4 en raya es un juego de estrategia para dos jugadores. Cada jugador deja
-        caer una ficha por turnos dentro del tablero. El objetivo es formar una
-        línea de 4 fichas del mismo color en horizontal, vertical o diagonal.
-      </p>
-
-      <div class="info-grid">
-        <div class="info-box">
-          <h3>🎯 Objetivo</h3>
-          <p>Conectar 4 fichas seguidas antes que tu rival.</p>
-        </div>
-
-        <div class="info-box">
-          <h3>🧠 Estrategia</h3>
-          <p>Bloquea jugadas del oponente y crea varias opciones de victoria.</p>
-        </div>
-
-        <div class="info-box">
-          <h3>💻 Tecnologías</h3>
-          <p>HTML, CSS y JavaScript.</p>
-        </div>
-
-        <div class="info-box">
-          <h3>👥 Modalidad</h3>
-          <p>Jugador vs Jugador en el mismo dispositivo.</p>
-        </div>
-      </div>
-    </section>
   </main>
+
+  <!-- MODAL -->
+  <div id="resultModal" class="modal hidden">
+    <div class="modal-card">
+      <h2 id="modalTitle">Resultado</h2>
+      <p id="modalMessage">Mensaje del resultado</p>
+      <div class="modal-actions">
+        <button id="playAgainBtn" class="btn btn-primary">Jugar otra vez</button>
+        <button id="closeModalBtn" class="btn btn-secondary">Cerrar</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
