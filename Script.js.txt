@@ -1,0 +1,140 @@
+const ROWS = 6;
+const COLS = 7;
+
+const boardElement = document.getElementById("board");
+const statusText = document.getElementById("status");
+const restartBtn = document.getElementById("restartBtn");
+
+let board = [];
+let currentPlayer = "red";
+let gameOver = false;
+
+function initBoard() {
+  board = Array.from({ length: ROWS }, () => Array(COLS).fill(""));
+  boardElement.innerHTML = "";
+  gameOver = false;
+  currentPlayer = "red";
+  statusText.textContent = "Turno del jugador 🔴";
+
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.dataset.row = row;
+      cell.dataset.col = col;
+      cell.addEventListener("click", () => handleMove(col));
+      boardElement.appendChild(cell);
+    }
+  }
+}
+
+function handleMove(col) {
+  if (gameOver) return;
+
+  // Buscar la fila más baja disponible
+  for (let row = ROWS - 1; row >= 0; row--) {
+    if (board[row][col] === "") {
+      board[row][col] = currentPlayer;
+      updateBoard();
+
+      const winningCells = checkWinner(row, col, currentPlayer);
+      if (winningCells) {
+        gameOver = true;
+        highlightWinner(winningCells);
+        statusText.textContent =
+          currentPlayer === "red"
+            ? "¡Ganó el jugador 🔴!"
+            : "¡Ganó el jugador 🟡!";
+        return;
+      }
+
+      if (isBoardFull()) {
+        gameOver = true;
+        statusText.textContent = "¡Empate!";
+        return;
+      }
+
+      currentPlayer = currentPlayer === "red" ? "yellow" : "red";
+      statusText.textContent =
+        currentPlayer === "red"
+          ? "Turno del jugador 🔴"
+          : "Turno del jugador 🟡";
+      return;
+    }
+  }
+}
+
+function updateBoard() {
+  const cells = document.querySelectorAll(".cell");
+
+  cells.forEach((cell) => {
+    const row = parseInt(cell.dataset.row);
+    const col = parseInt(cell.dataset.col);
+
+    cell.classList.remove("red", "yellow");
+
+    if (board[row][col] !== "") {
+      cell.classList.add(board[row][col]);
+    }
+  });
+}
+
+function isBoardFull() {
+  return board.every((row) => row.every((cell) => cell !== ""));
+}
+
+function checkWinner(row, col, player) {
+  const directions = [
+    [0, 1],   // horizontal
+    [1, 0],   // vertical
+    [1, 1],   // diagonal \
+    [1, -1]   // diagonal /
+  ];
+
+  for (const [dr, dc] of directions) {
+    let cells = [[row, col]];
+
+    // avanzar en una dirección
+    let r = row + dr;
+    let c = col + dc;
+    while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
+      cells.push([r, c]);
+      r += dr;
+      c += dc;
+    }
+
+    // avanzar en la dirección contraria
+    r = row - dr;
+    c = col - dc;
+    while (r >= 0 && r < ROWS && c >= 0 && c < COLS && board[r][c] === player) {
+      cells.unshift([r, c]);
+      r -= dr;
+      c -= dc;
+    }
+
+    if (cells.length >= 4) {
+      return cells.slice(0, 4);
+    }
+  }
+
+  return null;
+}
+
+function highlightWinner(winningCells) {
+  const cells = document.querySelectorAll(".cell");
+
+  winningCells.forEach(([row, col]) => {
+    cells.forEach((cell) => {
+      if (
+        parseInt(cell.dataset.row) === row &&
+        parseInt(cell.dataset.col) === col
+      ) {
+        cell.classList.add("winner");
+      }
+    });
+  });
+}
+
+restartBtn.addEventListener("click", initBoard);
+
+initBoard();
